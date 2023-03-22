@@ -1,0 +1,69 @@
+/* eslint-disable react/prop-types */
+import { Typography, Divider } from 'antd';
+import { Icon } from 'semantic-ui-react';
+const { Title } = Typography;
+import { StyledRow, StyledCol } from './StyledComponents';
+
+function FilesGrid(props) {
+  const { view, handleFolderClick, setShowFile, setFileToShow } = props;
+
+  const handleShowFile = (file) => {
+    setShowFile();
+    setFileToShow(file);
+  };
+  return (
+    <>
+      {view[view.length - 1].childFolders.length > 0 && (
+        <>
+          <StyledRow>
+            <StyledCol span={12}>
+              <Title italic level={4}>
+                Folders:
+              </Title>
+            </StyledCol>
+          </StyledRow>
+          <StyledRow gutter={[32, 32]}>
+            {view[view.length - 1].childFolders.map((folder, index) => (
+              <StyledCol
+                textAlign="center"
+                cursor="pointer"
+                onClick={() => handleFolderClick(folder)}
+                span={4}
+                key={index}>
+                <Icon name="folder" size="huge" />
+                <Title level={5}>{folder.name}</Title>
+              </StyledCol>
+            ))}
+          </StyledRow>
+        </>
+      )}
+      {view[view.length - 1].childFolders.length > 0 && <Divider />}
+
+      {view[view.length - 1].files.length > 0 && (
+        <>
+          <StyledRow>
+            <StyledCol span={12}>
+              <Title italic level={4}>
+                Files:
+              </Title>
+            </StyledCol>
+          </StyledRow>
+          <StyledRow gutter={[32, 32]}>
+            {view[view.length - 1].files.map((file, index) => (
+              <StyledCol
+                textAlign="center"
+                cursor="pointer"
+                onClick={() => handleShowFile(file)}
+                span={4}
+                key={index}>
+                <Icon name="file" size="huge" />
+                <Title level={5}>{file.originalName}</Title>
+              </StyledCol>
+            ))}
+          </StyledRow>
+        </>
+      )}
+    </>
+  );
+}
+export default FilesGrid;

@@ -1,28 +1,18 @@
 /* eslint-disable react/prop-types */
-import { Button } from 'antd';
+import { FileDisplay, ObjectDisplay, StyledButton } from './StyledComponents';
 
-const fileDisplayStyle = {
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  backgroundColor: '#fff',
-  padding: '20px',
-  boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-  zIndex: '10'
-};
 function ShowFile(props) {
+  const { fileToShow, close } = props;
   return (
-    <div style={fileDisplayStyle}>
-      <object
-        data={`http://localhost:3000/${props.fileToShow}.pdf`}
-        //  type="application/pdf"
-        width="100%"
-        height="600px">
-        <p>Sorry, your browser does not support embedded PDF files.</p>
-      </object>
-      <Button onClick={() => props.close()}>Close Document</Button>
-    </div>
+    <FileDisplay>
+      <ObjectDisplay data={`http://localhost:3000/${fileToShow._id}.${fileToShow.extension}`}>
+        <p>Sorry, your browser does not support embedded files.</p>
+      </ObjectDisplay>
+      <p>{`${fileToShow.originalName}.${fileToShow.extension}`}</p>
+
+      <StyledButton onClick={() => close()}>Close Document</StyledButton>
+    </FileDisplay>
   );
 }
+
 export default ShowFile;
