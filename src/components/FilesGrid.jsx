@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Typography, Divider } from 'antd';
+import { Typography, Divider, Empty } from 'antd';
 import { Icon } from 'semantic-ui-react';
 const { Title } = Typography;
 import { StyledRow, StyledCol, StyledImg } from './StyledComponents';
@@ -71,6 +71,8 @@ function FilesGrid(props) {
           </StyledRow>
         </>
       )}
+      {view[view.length - 1].childFolders.length === 0 &&
+        view[view.length - 1].files.length === 0 && <Empty />}
     </>
   );
 }
