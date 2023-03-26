@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { message } from 'antd';
-import { addFileToUser } from '../redux/thunks/userThunks';
-import AddFileToFolder from '../actions/addFileToFolder';
+import { uploadFiles } from '../redux/thunks/userThunks';
 import { StyledButton } from './StyledComponents';
 function Uploader(props) {
-  const { selectedFolderId, updateView, user, setLoading } = props;
+  const { selectedFolderId, updateView, user } = props;
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -15,31 +13,20 @@ function Uploader(props) {
   };
   const onUpload = async (e) => {
     e.preventDefault();
-
-    if (selectedFolderId) {
-      //uploading file to folder
-      setLoading(true);
-
-      const response = await AddFileToFolder({
+    const response = await dispatch(
+      uploadFiles({
         files: e.target.files,
+        totalStorage: user.totalStorage,
+        usedStorage: user.usedStorage,
+        folderId: selectedFolderId,
+        userId: user._id
+      })
+    );
+    if (selectedFolderId) {
+      // in case of uploading file to folder in the tail of the view
+      const { folder } = response.payload;
 
-        folderId: selectedFolderId
-      });
-
-      setLoading(false);
-
-      if (response.status == 200) {
-        const { folder } = response.data;
-
-        updateView(folder);
-
-        message.success(response.data.message);
-      } else {
-        message.error(response.data.name);
-      }
-    } else {
-      //uploading file to user
-      dispatch(addFileToUser({ files: e.target.files, userId: user._id }));
+      updateView(folder);
     }
 
     fileInputRef.current.value = null;

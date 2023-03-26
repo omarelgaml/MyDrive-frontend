@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCurrentUser, addFolderToUser, logout, addFileToUser } from '../thunks/userThunks';
+import { getCurrentUser, addFolderToUser, logout, uploadFiles } from '../thunks/userThunks';
 import { message } from 'antd';
 const initialState = {
   user: {},
@@ -34,19 +34,20 @@ export const usersSlice = createSlice({
     });
     ////////
 
-    builder.addCase(addFileToUser.pending, (state) => {
+    builder.addCase(uploadFiles.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(addFileToUser.fulfilled, (state, action) => {
+    builder.addCase(uploadFiles.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.loading = false;
       message.success(action.payload.message);
     });
-    builder.addCase(addFileToUser.rejected, (state, action) => {
+    builder.addCase(uploadFiles.rejected, (state, action) => {
       // state.user = action.payload.user;
       state.loading = false;
       message.error(action.payload.message);
     });
+
     //////////////
     builder.addCase(logout.fulfilled, (state) => {
       state.user = {};

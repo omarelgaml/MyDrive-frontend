@@ -4,7 +4,7 @@ const addFolderToFolder = async (body) => {
   try {
     const response = await axios.post('/folders/add-folder-to-folder', body);
 
-    return response.data;
+    return response;
   } catch (err) {
     return err.response;
   }

@@ -8,7 +8,7 @@ function ShowFile(props) {
       <ObjectDisplay data={`http://localhost:3000/${fileToShow._id}.${fileToShow.extension}`}>
         <p>Sorry, your browser does not support embedded files.</p>
       </ObjectDisplay>
-      <p>{`${fileToShow.originalName}.${fileToShow.extension}`}</p>
+      <p>{`${fileToShow.originalName}`}</p>
 
       <StyledButton onClick={() => close()}>Close Document</StyledButton>
     </FileDisplay>

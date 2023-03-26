@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Row, Col, Space, Button } from 'antd';
+import { Row, Col, Space, Button, Card } from 'antd';
 export const StyledSpinner = styled.div`
   position: fixed;
   top: 0;
@@ -37,10 +37,12 @@ export const ObjectDisplay = styled.object`
 `;
 export const StyledRow = styled(Row)`
   margin-bottom: ${(props) => props.marginBottom || '2%'};
+  padding-left: ${(props) => props.paddingLeft};
 `;
 export const StyledCol = styled(Col)`
   text-align: ${(props) => props.textAlign};
   cursor: ${(props) => props.cursor};
+  text-align: ${(props) => props.textAlign};
 `;
 export const StyledSpace = styled(Space)`
   padding-top: ${(props) => props.padingTop};
@@ -49,4 +51,17 @@ export const StyledSpace = styled(Space)`
 `;
 export const StyledButton = styled(Button)`
   text-align: center;
+`;
+export const StyledImg = styled.img`
+  width: 4em;
+  height: 4em;
+`;
+export const StyledCard = styled(Card)`
+  margin-bottom: 30px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-out;
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-5px);
+  }
 `;

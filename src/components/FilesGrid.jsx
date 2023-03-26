@@ -2,8 +2,8 @@
 import { Typography, Divider } from 'antd';
 import { Icon } from 'semantic-ui-react';
 const { Title } = Typography;
-import { StyledRow, StyledCol } from './StyledComponents';
-
+import { StyledRow, StyledCol, StyledImg } from './StyledComponents';
+import React from 'react';
 function FilesGrid(props) {
   const { view, handleFolderClick, setShowFile, setFileToShow } = props;
 
@@ -56,7 +56,15 @@ function FilesGrid(props) {
                 onClick={() => handleShowFile(file)}
                 span={4}
                 key={index}>
-                <Icon name="file" size="huge" />
+                {file.thumbnailUrl && (
+                  <StyledImg src={`http://localhost:3000/${file.thumbnailUrl}`} />
+                )}
+                {!file.thumbnailUrl && (
+                  <>
+                    <Icon name="file" size="huge" />
+                    {/* <Title level={5}>{file.originalName}</Title> */}
+                  </>
+                )}
                 <Title level={5}>{file.originalName}</Title>
               </StyledCol>
             ))}
@@ -66,4 +74,4 @@ function FilesGrid(props) {
     </>
   );
 }
-export default FilesGrid;
+export default React.memo(FilesGrid);

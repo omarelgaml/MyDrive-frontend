@@ -1,19 +1,22 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCurrentUser, addFolderToUser } from '../redux/thunks/userThunks';
 import { Typography, message } from 'antd';
+
 import { LeftOutlined } from '@ant-design/icons';
 import MyModal from '../components/MyModal';
 import ShowFile from '../components/ShowFile';
 import AddFolderToFolder from '../actions/addFolderToFolder';
 import GetFolder from '../actions/getFolder';
 import { StyledRow, StyledCol, StyledSpace, StyledButton } from '../components/StyledComponents';
+
 const { Text } = Typography;
 
 import FilesGrid from '../components/FilesGrid';
 import Uploader from '../components/Uploader';
 import Spinner from '../components/Spinner';
-
+import DropDown from '../components/DropDown';
 function Landing() {
   const dispatch = useDispatch();
 
@@ -37,7 +40,7 @@ function Landing() {
   const [view, setView] = useState([]);
 
   useEffect(() => {
-    dispatch(getCurrentUser());
+    if (!Object.keys(user).length) dispatch(getCurrentUser());
   }, []);
 
   //when the current folder changes by adding new file or folder to it, I take the updated folder from the database
@@ -118,9 +121,10 @@ function Landing() {
       const body = { name, parentFolder: selectedFolderId };
 
       const resp = await AddFolderToFolder(body);
+      console.log(resp);
 
       if (resp.status == 200) {
-        const { folder } = resp;
+        const { folder } = resp.data;
 
         updateView(folder);
 
@@ -135,6 +139,7 @@ function Landing() {
     }
     setShowModal(false);
   };
+
   return (
     <StyledSpace direction="vertical" width="100%" padding="2%" size={[0, 12]}>
       {/* The back button and the name of the current folder */}
@@ -175,10 +180,7 @@ function Landing() {
         </StyledCol>
 
         <StyledCol textAlign="right" xs={24} sm={24} md={8} lg={{ span: 4, offset: 14 }}>
-          <StyledButton
-            onClick={() => window.open('http://localhost:3000/api/auth/logout', '_self')}>
-            logout
-          </StyledButton>
+          <DropDown />
         </StyledCol>
       </StyledRow>
       {/************/}
@@ -196,4 +198,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default React.memo(Landing);
